@@ -17,6 +17,7 @@ public class Graph {
         
     }
     public void addEdge(Node root, Node target){
+        addNodes(root);
         adjNodes.get(root).add(target);
     }
     

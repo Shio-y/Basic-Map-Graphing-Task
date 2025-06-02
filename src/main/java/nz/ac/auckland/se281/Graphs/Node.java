@@ -5,7 +5,7 @@ public class Node {
     private String region;
     private int cost;
 
-    public Node(String name, int cost, String region ){
+    public Node(String name, String region, int cost){
         this.name = name;
         this.region = region;
         this.cost = cost;
