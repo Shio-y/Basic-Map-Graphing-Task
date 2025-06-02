@@ -19,5 +19,17 @@ public class Node {
         return this.name;
     }
     
+    public String getRegion(){
+        return this.region;
+    }
+    public int getCost(){
+        return this.cost;
+
+    }
+    @Override
+    public String toString() {
+        return getName();
+    }
+    
     
 }

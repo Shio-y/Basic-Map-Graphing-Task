@@ -20,6 +20,10 @@ public class Graph {
         this.addNodes(root);
         this.adjNodes.get(root).add(target);
     }
+    public List<Node> getAdjNode(Node key){
+        return adjNodes.get(key);
+    }
+   
     
     
 }
