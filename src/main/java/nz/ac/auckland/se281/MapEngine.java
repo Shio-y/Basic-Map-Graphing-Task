@@ -113,9 +113,10 @@ public class MapEngine {
     //checks if start and end is the same
     if(root.equals(target)){
       MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
+      return;
     }
 
-
+    MessageCli.ROUTE_INFO.printMessage(graph.getShortestRoute(root, target).toString());
 
   }
 }
