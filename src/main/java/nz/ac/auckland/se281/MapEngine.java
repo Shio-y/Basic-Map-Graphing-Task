@@ -15,6 +15,10 @@ public class MapEngine {
 
     List<String> countries = Utils.readCountries();
     List<String> adjacencies = Utils.readAdjacencies();
+    
+    // for (String i : countries){
+      
+    // }
   }
 
   /** this method is invoked when the user run the command info-country. */
