@@ -74,18 +74,23 @@ public class Graph {
     MessageCli.FUEL_INFO.printMessage(Integer.toString(totalFuel));
   }
 
-  public void printContinentsVisited(List<Node> path) {
+  public String printContinentsVisited(List<Node> path) {
     Map<String, Integer> continentMap = new HashMap<>();
     List<String> finalList = new LinkedList<>();
     List<String> continentList = new LinkedList<>();
     String currentContinent = null;
+    String[] hold = null;
+    int max = -1;
+    int currentIndex = 0;
+    int currentNumber = 0;
+    int count = -1;
     int currentFuel = 0;
-    //counts the amount of fuel used in each continent and adds it to a hashmap
+
+    // counts the amount of fuel used in each continent and adds it to a hashmap
     for (int i = 1; i < path.size() - 1; i++) {
       currentContinent = path.get(i).getRegion();
       currentFuel = path.get(i).getCost();
 
-      
       if (continentMap.containsKey(path.get(i).getRegion())) {
         // adds the new fuel value to the old one if so
         continentMap.put(currentContinent, currentFuel + continentMap.get(currentContinent));
@@ -94,20 +99,29 @@ public class Graph {
         continentMap.put(currentContinent, currentFuel);
       }
     }
-    //finds the regions that were passed through 
+    // finds the regions that were passed through
     for (int i = 0; i < path.size(); i++) {
-        if (!continentList.contains(path.get(i).getRegion())){
-            continentList.add(path.get(i).getRegion());
-        }
+      if (!continentList.contains(path.get(i).getRegion())) {
+        continentList.add(path.get(i).getRegion());
+      }
     }
-    //assembles a list in the right format
-    for (String i : continentList){
-        finalList.add(i+" ("+ Integer.toString(continentMap.getOrDefault(i,0))+")");
+    // assembles a list in the right format
+    for (String i : continentList) {
+      finalList.add(i + " (" + Integer.toString(continentMap.getOrDefault(i, 0)) + ")");
     }
 
     MessageCli.CONTINENT_INFO.printMessage(finalList.toString());
+    // takes the list of total fuel costs and splits it to find which most fuel spent on a continent
+    for (String i : finalList) {
+      hold = i.split("[\\(\\)]");
+      currentNumber = Integer.valueOf(hold[1]);
+      count++;
 
-
-    
+      if (currentNumber > max) {
+        max = currentNumber;
+        currentIndex = Integer.valueOf(count);
+      }
+    }
+    return finalList.get(currentIndex);
   }
 }

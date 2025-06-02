@@ -98,6 +98,7 @@ public class MapEngine {
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
     List<Node> path = new LinkedList<>();
+    String highestContinent;
 
     String validUserInput = null;
     Node root, target;
@@ -121,6 +122,7 @@ public class MapEngine {
     // prints all output messages
     MessageCli.ROUTE_INFO.printMessage(path.toString());
     graph.printTotalFuel(path);
-    graph.printContinentsVisited(path);
+    highestContinent = graph.printContinentsVisited(path);
+    MessageCli.FUEL_CONTINENT_INFO.printMessage(highestContinent);
   }
 }
