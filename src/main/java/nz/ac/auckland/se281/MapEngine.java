@@ -1,6 +1,8 @@
 package nz.ac.auckland.se281;
 
 
+import static nz.ac.auckland.se281.MessageCli.INSERT_COUNTRY;
+
 import java.util.LinkedList;
 import java.util.List;
 import nz.ac.auckland.se281.Graphs.Graph;
@@ -16,16 +18,18 @@ public class MapEngine {
   }
 
   // turns a string into a node;
-  public Node fromString(String input) {
+  public Node fromString(String input){
     for (Node node : nodeList) {
       if (node.getName().equalsIgnoreCase(input)) {
         return node;
       }
     }
     return null;
+    
   }
 
-  /** invoked one time only when constracting the MapEngine class. */
+  //invoked one time only when constracting the MapEngine class. 
+   
   private void loadMap() {
     String[] holdCountries = null;
     String[] holdAdj = null;
@@ -50,8 +54,35 @@ public class MapEngine {
     }
   }
 
+  public Boolean checkValidCountry(String input)throws InvalidCountryException{
+    if (fromString(input) == null){
+      throw new InvalidCountryException();
+    }
+    return true;
+
+  }
+  
   /** this method is invoked when the user run the command info-country. */
-  public void showInfoCountry() {}
+  public void showInfoCountry() {
+    boolean valid = false;
+
+    MessageCli.INSERT_COUNTRY.printMessage();
+    //ask for user input
+    
+
+    while (!valid){
+      String userInput = Utils.scanner.nextLine().toString();
+      try {
+        valid = checkValidCountry(userInput);
+      } catch (InvalidCountryException e) {
+        MessageCli.INVALID_COUNTRY.printMessage(Utils.capitalizeFirstLetterOfEachWord(userInput));
+
+      }
+    }
+
+   
+    
+  }
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {}

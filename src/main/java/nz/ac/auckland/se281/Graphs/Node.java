@@ -1,7 +1,6 @@
 package nz.ac.auckland.se281.Graphs;
 
-import java.util.LinkedList;
-import java.util.List;
+
 
 public class Node {
     private String name;
