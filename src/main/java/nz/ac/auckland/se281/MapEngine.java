@@ -102,9 +102,6 @@ public class MapEngine {
     Node root, target;
     
     MessageCli.INSERT_SOURCE.printMessage();
-   
-    
-    
     //turns start into a Node
     validUserInput = checkValidInputs();
     root = fromString(validUserInput);
@@ -113,7 +110,10 @@ public class MapEngine {
     //turns end into a node
     validUserInput = checkValidInputs();
     target = fromString(validUserInput);
-
+    //checks if start and end is the same
+    if(root.equals(target)){
+      MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
+    }
 
 
 
