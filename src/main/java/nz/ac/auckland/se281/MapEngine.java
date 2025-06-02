@@ -1,14 +1,15 @@
 package nz.ac.auckland.se281;
 
-
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import nz.ac.auckland.se281.Graphs.Graph;
 import nz.ac.auckland.se281.Graphs.Node;
 
 /** This class is the main entry point. */
 public class MapEngine {
-  List<Node> nodeList = new LinkedList<>();
+  Set<Node> nodeList = new HashSet<>();
   Graph graph = new Graph();
 
   public MapEngine() {
@@ -25,11 +26,12 @@ public class MapEngine {
     }
     return null;
   }
-  //repeatedly checks if user input is a valid country and returns as a string if so
-    public String checkValidInputs(){
+
+  // repeatedly checks if user input is a valid country and returns as a string if so
+  public String checkValidInputs() {
     Boolean validInputs = false;
     String userInput = null;
-     while (!validInputs){
+    while (!validInputs) {
       userInput = Utils.scanner.nextLine().toString();
       try {
         validInputs = checkValidCountry(userInput);
@@ -38,8 +40,6 @@ public class MapEngine {
       }
     }
     return userInput;
-    
-
   }
 
   // invoked one time only when constracting the MapEngine class.
@@ -65,7 +65,8 @@ public class MapEngine {
       }
     }
   }
-//checks if the input is a valid country
+
+  // checks if the input is a valid country
   public Boolean checkValidCountry(String input) throws InvalidCountryException {
     if (fromString(input) == null) {
       throw new InvalidCountryException();
@@ -75,7 +76,7 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
-    
+
     Node currentCountry;
     String validUserInput = null;
 
@@ -83,10 +84,10 @@ public class MapEngine {
 
     // repeatedly asks for user input until user gives valid input
     validUserInput = checkValidInputs();
-    //placeholder for countries in order to print later
+    // placeholder for countries in order to print later
     currentCountry = fromString(validUserInput);
     String adjNodeString = graph.getAdjNode(currentCountry).toString();
-    //print country info
+    // print country info
     MessageCli.COUNTRY_INFO.printMessage(
         currentCountry.getName(),
         currentCountry.getRegion(),
@@ -94,29 +95,31 @@ public class MapEngine {
         adjNodeString);
   }
 
-
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
-    
+    List<Node> path = new LinkedList<>();
+
     String validUserInput = null;
     Node root, target;
-    
+
     MessageCli.INSERT_SOURCE.printMessage();
-    //turns start into a Node
+    // turns start into a Node
     validUserInput = checkValidInputs();
     root = fromString(validUserInput);
 
     MessageCli.INSERT_DESTINATION.printMessage();
-    //turns end into a node
+    // turns end into a node
     validUserInput = checkValidInputs();
     target = fromString(validUserInput);
-    //checks if start and end is the same
-    if(root.equals(target)){
+    // checks if start and end is the same
+    if (root.equals(target)) {
       MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
       return;
     }
 
-    MessageCli.ROUTE_INFO.printMessage(graph.getShortestRoute(root, target).toString());
-
+    path = graph.getShortestRoute(root, target);
+    // prints all output messages
+    MessageCli.ROUTE_INFO.printMessage(path.toString());
+    graph.printTotalFuel(path);
   }
 }

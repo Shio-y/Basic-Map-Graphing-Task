@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import nz.ac.auckland.se281.MessageCli;
 
 public class Graph {
   private Map<Node, List<Node>> adjNodes;
@@ -28,8 +29,9 @@ public class Graph {
     return adjNodes.get(key);
   }
 
+  // finds the shortest route from start to end
   public List<Node> getShortestRoute(Node root, Node target) {
-    Map<Node,Node> parentMap = new HashMap<>();
+    Map<Node, Node> parentMap = new HashMap<>();
     List<Node> visited = new ArrayList<>();
     Queue<Node> queue = new LinkedList<>();
     List<Node> path = new LinkedList<>();
@@ -37,30 +39,38 @@ public class Graph {
     parentMap.put(root, null);
     queue.add(root);
     visited.add(root);
-    //BFS implementation
+    // BFS implementation
     while (!queue.isEmpty()) {
       Node currentNode = queue.poll();
 
-      //ends the loop when target found 
-      if (currentNode.equals(target)){
-        //goes backwards through parentMap to find the path you took
-        for (Node n = target ; n != null ; n = parentMap.get(n)){
-            path.add(n);
-
+      // ends the loop when target found
+      if (currentNode.equals(target)) {
+        // goes backwards through parentMap to find the path you took
+        for (Node n = target; n != null; n = parentMap.get(n)) {
+          path.add(n);
         }
         Collections.reverse(path);
         return path;
       }
-      //checks if we have visited the adjacent nodes.
+      // checks if we have visited the adjacent nodes and adds to list if not
       for (Node nextNode : adjNodes.get(currentNode)) {
         if (!visited.contains(nextNode)) {
           visited.add(nextNode);
           queue.add(nextNode);
-          parentMap.put(nextNode, currentNode); //for making path later
+          parentMap.put(nextNode, currentNode); // for making path later
         }
       }
     }
 
     return null;
+  }
+
+  // calculates the amount of fuel spent excluding source and destination and prints message.
+  public void printTotalFuel(List<Node> path) {
+    int totalFuel = 0;
+    for (int i = 1; i < path.size() - 1; i++) {
+      totalFuel += path.get(i).getCost();
+    }
+    MessageCli.FUEL_INFO.printMessage(Integer.toString(totalFuel));
   }
 }
