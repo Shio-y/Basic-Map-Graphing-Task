@@ -121,5 +121,6 @@ public class MapEngine {
     // prints all output messages
     MessageCli.ROUTE_INFO.printMessage(path.toString());
     graph.printTotalFuel(path);
+    graph.printContinentsVisited(path);
   }
 }
