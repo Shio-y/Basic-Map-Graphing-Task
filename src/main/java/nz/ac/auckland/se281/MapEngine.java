@@ -25,6 +25,22 @@ public class MapEngine {
     }
     return null;
   }
+  //repeatedly checks if user input is a valid country and returns as a string if so
+    public String checkValidInputs(){
+    Boolean validInputs = false;
+    String userInput = null;
+     while (!validInputs){
+      userInput = Utils.scanner.nextLine().toString();
+      try {
+        validInputs = checkValidCountry(userInput);
+      } catch (InvalidCountryException e) {
+        MessageCli.INVALID_COUNTRY.printMessage(Utils.capitalizeFirstLetterOfEachWord(userInput));
+      }
+    }
+    return userInput;
+    
+
+  }
 
   // invoked one time only when constracting the MapEngine class.
 
@@ -59,23 +75,16 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
-    boolean valid = false;
+    
     Node currentCountry;
-    String userInput = null;
+    String validUserInput = null;
 
     MessageCli.INSERT_COUNTRY.printMessage();
 
     // repeatedly asks for user input until user gives valid input
-    while (!valid) {
-      userInput = Utils.scanner.nextLine().toString();
-      try {
-        valid = checkValidCountry(userInput);
-      } catch (InvalidCountryException e) {
-        MessageCli.INVALID_COUNTRY.printMessage(Utils.capitalizeFirstLetterOfEachWord(userInput));
-      }
-    }
+    validUserInput = checkValidInputs();
     //placeholder for countries in order to print later
-    currentCountry = fromString(userInput);
+    currentCountry = fromString(validUserInput);
     String adjNodeString = graph.getAdjNode(currentCountry).toString();
     //print country info
     MessageCli.COUNTRY_INFO.printMessage(
@@ -85,6 +94,28 @@ public class MapEngine {
         adjNodeString);
   }
 
+
   /** this method is invoked when the user run the command route. */
-  public void showRoute() {}
+  public void showRoute() {
+    
+    String validUserInput = null;
+    Node root, target;
+    
+    MessageCli.INSERT_SOURCE.printMessage();
+   
+    
+    
+    //turns start into a Node
+    validUserInput = checkValidInputs();
+    root = fromString(validUserInput);
+
+    MessageCli.INSERT_DESTINATION.printMessage();
+    //turns end into a node
+    validUserInput = checkValidInputs();
+    target = fromString(validUserInput);
+
+
+
+
+  }
 }

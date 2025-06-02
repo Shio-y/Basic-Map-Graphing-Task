@@ -13,6 +13,7 @@ import java.util.Scanner;
  * <p>CANNOT CHANGE EXISTING METHODS BUT YOU CAN ADD NEW ONES.
  */
 public class Utils {
+  
 
   public static Scanner scanner = new Scanner(System.in);
 
@@ -23,6 +24,7 @@ public class Utils {
   public static List<String> readAdjacencies() {
     return readCsv("./src/main/resources/adjacencies.csv");
   }
+  
 
   /**
    * read the content of a csv file.
