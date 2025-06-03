@@ -1,16 +1,15 @@
 package nz.ac.auckland.se281;
 
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import nz.ac.auckland.se281.Graphs.Graph;
-import nz.ac.auckland.se281.Graphs.Node;
+import nz.ac.auckland.se281.graph.Graph;
+import nz.ac.auckland.se281.graph.Node;
 
 /** This class is the main entry point. */
 public class MapEngine {
-  Set<Node> nodeList = new HashSet<>();
-  Graph graph = new Graph();
+  private Set<Node> nodeList = new HashSet<>();
+  private Graph graph = new Graph();
 
   public MapEngine() {
     // add other code here if you wan
@@ -20,11 +19,20 @@ public class MapEngine {
   // turns a string into a node;
   public Node fromString(String input) {
     for (Node node : nodeList) {
+      // checks if a node exists with the same name as input
       if (node.getName().equals(Utils.capitalizeFirstLetterOfEachWord(input))) {
         return node;
       }
     }
     return null;
+  }
+
+  // checks if the input is a valid country
+  public Boolean checkValidCountry(String input) throws InvalidCountryException {
+    if (fromString(input) == null) {
+      throw new InvalidCountryException();
+    }
+    return true;
   }
 
   // repeatedly checks if user input is a valid country and returns as a string if so
@@ -33,7 +41,9 @@ public class MapEngine {
     String userInput = null;
     while (!validInputs) {
       userInput = Utils.scanner.nextLine().toString();
+
       try {
+        // breaks the loop once user has inputted a valid country
         validInputs = checkValidCountry(userInput);
       } catch (InvalidCountryException e) {
         MessageCli.INVALID_COUNTRY.printMessage(Utils.capitalizeFirstLetterOfEachWord(userInput));
@@ -45,8 +55,8 @@ public class MapEngine {
   // invoked one time only when constracting the MapEngine class.
 
   private void loadMap() {
-    String[] holdCountries = null;
-    String[] holdAdj = null;
+    String[] holdCountries;
+    String[] holdAdj;
 
     List<String> countries = Utils.readCountries();
     List<String> adjacencies = Utils.readAdjacencies();
@@ -66,19 +76,11 @@ public class MapEngine {
     }
   }
 
-  // checks if the input is a valid country
-  public Boolean checkValidCountry(String input) throws InvalidCountryException {
-    if (fromString(input) == null) {
-      throw new InvalidCountryException();
-    }
-    return true;
-  }
-
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
 
     Node currentCountry;
-    String validUserInput = null;
+    String validUserInput;
 
     MessageCli.INSERT_COUNTRY.printMessage();
 
@@ -97,10 +99,10 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
-    List<Node> path = new LinkedList<>();
+    List<Node> path;
     String highestContinent;
 
-    String validUserInput = null;
+    String validUserInput;
     Node root, target;
 
     MessageCli.INSERT_SOURCE.printMessage();

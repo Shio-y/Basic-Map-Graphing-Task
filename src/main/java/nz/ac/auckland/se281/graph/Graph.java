@@ -1,4 +1,4 @@
-package nz.ac.auckland.se281.Graphs;
+package nz.ac.auckland.se281.graph;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,13 +78,13 @@ public class Graph {
     Map<String, Integer> continentMap = new HashMap<>();
     List<String> finalList = new LinkedList<>();
     List<String> continentList = new LinkedList<>();
-    String currentContinent = null;
-    String[] hold = null;
+    String currentContinent;
+    String[] hold;
     int max = -1;
     int currentIndex = 0;
-    int currentNumber = 0;
+    int currentNumber;
     int count = -1;
-    int currentFuel = 0;
+    int currentFuel;
 
     // counts the amount of fuel used in each continent and adds it to a hashmap
     for (int i = 1; i < path.size() - 1; i++) {
